@@ -1,0 +1,454 @@
+{% include 'admin-template/base.html' %}
+  {% load static %}
+  <style>
+    img{
+    max-width:180px;
+    }
+    input[type=file]{
+    padding:10px;
+    background:#2d2d2d;}
+  </style>
+  
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Item Creation
+        <small>Masters</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Masters</a></li>
+        <li class="active">Item</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    
+    <section class="content">
+      <form action="{% url 'item' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{error}}
+        </div>
+        {% endif %}
+        <!-- SELECT2 EXAMPLE -->
+      
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <div class="box-body">
+              <div class="callout callout-info" style="margin-bottom: 0!important;">
+                <h3>Add Item <a href="itemshow"  class="btn btn-warning pull-right btn-lg">Go to Item Details</a></h3> 
+                
+              </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="box-body">
+                  <div class="form-group">
+                    <label><h4><b>Type</b></h4></label> &nbsp; &nbsp; &nbsp;
+                    &nbsp;
+                    <label>
+                      <input type="radio" name="type" value="goods" class="minimal" checked>
+                      Goods
+                    </label>
+                    &nbsp;
+                    &nbsp;
+                    <label>
+                      <input type="radio" name="type" value="services" class="minimal">
+                      Services
+                    </label>
+                  </div>
+
+                  <div class="form-group">
+                      <label>Name</label>
+                      <input type="text" class="form-control" name= "name" placeholder="Enter ...">
+                  </div>
+
+                  <div class="form-group">
+                      <label>SKU</label>
+                      <input type="text" class="form-control" name= "sku" placeholder="Enter ...">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Unit</label>
+                    <select class="form-control select2" name="unit" style="width: 100%;">
+                      <option selected disabled="True">-- Select unit --</option>
+                      <option>Nos</option>
+                      <option>Kg</option>
+                      <option>Pack</option>
+                      <option>Unit</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" value="True" name="returnable_item"> Returnable Item
+                        </label>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label>HSN Code</label>
+                      <input type="text" class="form-control" placeholder="Enter ...">
+                  </div>
+                </div>
+              </div>
+              <br> <br> <br> 
+                
+
+              <!-- /.col -->
+              <div class="col-md-6">
+                <div class="form-group">
+                  
+                  <div class="uploadOuter">
+                    <input type="file" name="upload_image" onchange="readURL(this);"/>
+                    <img id="blah"  src="http://placehold.it/180" alt="your image"/>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label>Category</label>
+                  <select class="form-control select2" name="category" style="width: 100%;">
+                    <option selected disabled="True">-- Select Category --</option>
+                    <option>Electronics</option>
+                    <option>Sports</option>
+                    <option>Cloths</option>
+                    <option>Footwear</option>
+                    <option>Grocery</option>
+                    <option disabled="disabled">California(disabled)</option>
+                  </select>
+                </div>
+                <div id="preview"></div>
+              </div>
+            </div>
+          </div> 
+        </div>
+      </div>
+
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <div class="box-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="box-body">
+                  <div class="form-group">
+                    <label>Dimensions</label>
+                      <div class="input-group margin">
+                        <div class="input-group-btn">
+                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Select
+                          <span class="fa fa-caret-down"></span></button>
+                          <ul class="dropdown-menu">
+                            <li><a href="#">In</a></li>
+                            <li><a href="#">Kg</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                          </ul>
+                        </div>
+                        <input type="text" class="form-control" >
+                      </div>
+                  </div>
+                            
+                  <div class="form-group">
+                    <label>Manufacturer</label>
+                    <select class="form-control select2" name="manufacturer" style="width: 100%;">
+                      <option selected disabled="True">-- Select Manufacturer --</option>
+                      <option>Christian Dior</option>
+                      <option>Nike</option>
+                      <option>Delaware</option>
+                      <option>Addidas</option>
+                      <option>Puma</option>
+                      <option>Inditex</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>UPC</label>
+                    <input type="text" name="upc" class="form-control" placeholder="Enter ...">
+                  </div>
+
+                  <div class="form-group">
+                    <label>EAN</label>
+                    <input type="text" name="ean" class="form-control" placeholder="Enter ...">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Design</label>
+                    <input type="text" name="design" class="form-control" placeholder="Enter ...">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Color</label>
+                    <select class="form-control select2" name="color" style="width: 100%;">
+                      <option selected disabled="True">-- Select Color --</option>
+                      <option>Black</option>
+                      <option>Red</option>
+                      <option>Brown</option>
+                      <option>White</option>
+                      <option>Pink</option>
+                      <option>Green</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputFile">Bar Code Image</label>
+                    <input type="file" name="barcode_image" id="exampleInputFile">
+                  </div>
+                </div>
+              </div>    
+              
+              <div class="box-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Weight</label>
+                        <div class="input-group margin">
+                          <div class="input-group-btn">  
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Kg
+                            <span class="fa fa-caret-down"></span></button>
+                            <ul class="dropdown-menu">
+                              <li><a href="#">Action</a></li>
+                              <li><a href="#">Another action</a></li>
+                              <li><a href="#">Something else here</a></li>
+                              <li class="divider"></li>
+                              <li><a href="#">Separated link</a></li>
+                            </ul>
+                          </div>
+                          <input type="text" class="form-control">
+                        </div>
+                    </div>
+                        
+                    <div class="form-group">
+                      <label>Brand</label>
+                      <select class="form-control select2" name="brand" style="width: 100%;">
+                        <option selected disabled="True">-- Select Brand --</option>
+                        <option>Puma</option>
+                        <option>Nike</option>
+                        <option>Delaware</option>
+                        <option>Tennessee</option>
+                        <option>Texas</option>
+                        <option>Washington</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>MPN</label>
+                      <input type="text" name="mpn" class="form-control" placeholder="Enter ...">
+                    </div>
+
+                    <div class="form-group">
+                      <label>ISBN</label>
+                      <input type="text" name="isbn" class="form-control" placeholder="Enter ...">
+                    </div>
+
+                    <div class="form-group">
+                      <label>Agency Charge</label>
+                      <input type="text" name="agency_charge" class="form-control" placeholder="Enter ...">
+                    </div>
+
+                    <div class="form-group">
+                      <label>Price Code</label>
+                      <input type="text" name="price_code" class="form-control" placeholder="Enter ...">
+                    </div>
+
+                    <div class="form-group">
+                      <label>Bar Code Image</label>
+                      <input type="text" class="form-control" placeholder="Enter ...">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <div class="box-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="box-body">
+                  <div class="form-group">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="True" name="sales_information"> Sales Information
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Selling Price</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">$</span>
+                      <input type="text" name="selling_price" class="form-control">
+                      <span class="input-group-addon">.00</span>
+                    </div>
+                  </div>
+                            
+                  <div class="form-group">
+                    <label>Sales Account</label>
+                    <select class="form-control select2" name="sales_account" style="width: 100%;">
+                      <option selected disabled="True">-- Select Sales Account --</option>
+                      <option>SBI</option>
+                      <option>PNB</option>
+                      <option>Tennessee</option>
+                      <option>Texas</option>
+                      <option>Washington</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" name="sales_description" rows="3" placeholder="Enter ..."></textarea>
+                  </div>
+                </div>
+              </div>    
+
+              <div class="box-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" value="True" name="purchase_information" > Purchase Information
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Cost Price</label>
+                      <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input type="text" name="cost_price" class="form-control">
+                        <span class="input-group-addon">.00</span>
+                      </div>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label>Purchase Account</label>
+                      <select class="form-control select2" name="purchase_account" style="width: 100%;">
+                        <option selected disabled="True">-- Select Purchase Account --</option>
+                        <option>Alaska</option>
+                        <option>Delaware</option>
+                        <option>Tennessee</option>
+                        <option>Texas</option>
+                        <option>Washington</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Description</label>
+                      <textarea class="form-control" name="purchase_description" rows="3" placeholder="Enter ..."></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <div class="box-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="box-body">
+                  <div class="form-group">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="True" name="track_inventory" > &nbsp; &nbsp; Track Inventory for this Item
+                        <h6>You cannot enable/disable inventory tracking once you've created transactions for this item</h6>
+                      </label>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label>Inventory Account</label>
+                    <select class="form-control select2" name="inventory_account" style="width: 100%;">
+                      <option selected disabled="True">-- Select Inventory Account --</option>
+                      <option>Alaska</option>
+                      <option>Delaware</option>
+                      <option>Tennessee</option>
+                      <option>Texas</option>
+                      <option>Washington</option>
+                      <option disabled="disabled">California (disabled)</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Reorder Point</label>
+                    <input type="text" name="reorder_point" class="form-control" placeholder="Enter ...">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Preferred Vendor</label>
+                    <select class="form-control select2" name="preferred_vendor" style="width: 100%;">
+                      <option selected disabled="True">-- Select Preferred Vendor --</option>
+                      <option>Alaska</option>
+                      <option>Delaware</option>
+                      <option>Tennessee</option>
+                      <option>Texas</option>
+                      <option>Washington</option>
+                    </select>
+                  </div>
+                </div>
+            </div>    
+
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <br> <br> <br> <br>
+                    <div class="form-group">
+                      <label>Warehouse Name</label>
+                      <select class="form-control select2" name="warehouse_name" style="width: 100%;">
+                        <option selected disabled="True">-- Select WareHouse Name --</option>
+                        <option>101</option>
+                        <option>102</option>
+                        <option>103</option>
+                        <option>104</option>
+                        <option>105</option>
+                        <option disabled="disabled">106</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Opening Stock</label>
+                      <input type="text" name="opening_stock" class="form-control" placeholder="Enter ...">
+                    </div>
+
+                    <div class="form-group">
+                      <label>Opening Stock Value</label>
+                      <input type="text" name="opening_stock_value" class="form-control" placeholder="Enter ...">
+                    </div>
+                </div>
+              </div>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      {% if success %}
+      <div class="alert alert-success" role="alert">
+      {{success}}
+      </div>
+      {% endif %}
+      </form>
+    </section>
+  </div>
+    <script>
+      function readURL(input) {
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+            reader.onload = function (e) {
+              $('#blah')
+                .attr('src', e.target.result);
+              };
+              reader.readAsDataURL(input.files[0]);
+          }
+      }
+    </script>
+{% include 'admin-template/footer.html' %}
