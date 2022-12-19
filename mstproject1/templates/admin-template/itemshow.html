@@ -106,7 +106,26 @@
                 
                 </tbody>
               </table>
-            
+              {% for message in messages %}
+                {% if message.tags == 'success' %}
+                  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                  <script>
+                    var m = "{{ message }}";
+                    swal("Success !", m, "success")
+                  </script>
+                </div>   
+                {% endif %}
+
+                {% if message.tags == 'warning' %}
+                  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                  <script>
+                    var m = "{{ message }}";
+                    swal("Error !", m, "warning")
+                  </script>
+                </div>   
+                {% endif %}
+              {% endfor %}
+              </form>
             </div>
             <h5> Page {{ items.number }} of {{ items.paginator.num_pages }} </h5>
             <nav aria-label="...">

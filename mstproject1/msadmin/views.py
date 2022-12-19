@@ -1,3 +1,4 @@
+from itertools import count
 from django.shortcuts import redirect, render
 import threading
 from msadmin.decorators import login_is_required
@@ -5,6 +6,7 @@ from . models import Adminusers, Item
 from django.core.paginator import Paginator
 from django.db.models import Sum
 from django.http import JsonResponse
+from django.contrib import messages
 
 
 def Adminpage(request):
@@ -14,53 +16,47 @@ def Adminpage(request):
     return render(request,'admin-template/pages/examples/login.html')
 
 def Item_show(request):
-    items = Item.objects.all()
-    paginator = Paginator(items, 5)
-    page_number = request.GET.get('page')
-    usersfinal = paginator.get_page(page_number)
-    totalpage = usersfinal.paginator.num_pages
+    if request.method == "GET":
+        items = Item.objects.all()
+        paginator = Paginator(items, 5)
+        page_number = request.GET.get('page')
+        usersfinal = paginator.get_page(page_number)
+        totalpage = usersfinal.paginator.num_pages
 
-    data={
-        'items': usersfinal,    
-        'lastpage': totalpage,
-        'totalPagelist': [n+1 for n in range(totalpage)],
-    }
-    return render(request, "admin-template/itemshow.html",data)
+        data={
+            'items': usersfinal,    
+            'lastpage': totalpage,
+            'totalPagelist': [n+1 for n in range(totalpage)],
+        }
+        return render(request, "admin-template/itemshow.html",data)
 
-def mix(request):
+def Item_editdelete(request):
     if 'delete' in request.POST:
         check = request.POST.getlist('checks[]')
         if check:
             for i in check:
                 delete = Item.objects.get(id=i)
+                messages.success (request,'The Item has deleted successfully.') 
+                #dsuc = {"delsuccess" : success_messages}
+                #url = "itemshow?delsuccess={}".format(success_messages)
                 delete.delete()
-        return redirect ('itemshow')
+        else:
+            messages.warning (request,'Please select one item.')
+            return redirect ('itemshow')
     elif 'edit' in request.POST:
         checkbox = request.POST.getlist('checks[]')
         if checkbox:
-            for i in checkbox:
-                edit = Item.objects.get(id=i)
-                return render (request,'admin-template/itemedit.html', {'edit' : edit })
-        return redirect ('itemshow')
+            if len(checkbox) == 1:
+                for i in checkbox:
+                    edit = Item.objects.get(id=i)
+                    return render (request,'admin-template/itemedit.html', {'edit' : edit })
+            else:
+                messages.warning (request,'Please select one item.')
+                return redirect ('itemshow')
+        else:
+            messages.warning (request,'Please select one item.')
+            return redirect ('itemshow')
     return redirect ('itemshow')
-
-
-'''def Item_edit(request):
-    if request.method == "POST":
-        checkbox = request.POST.getlist('checks[]')
-        print("111")
-        return render (request,'admin-template/itemedit.html')
-    return redirect ('itemshow')
-
-def Item_delete(request):
-    if request.method == 'POST':
-        check = request.POST.getlist('checks[]')
-        print("111")
-        request.session ['getid'] = check
-        for i in check:
-            delete = Item.objects.get(id=i)
-            delete.delete()
-    return redirect ('itemshow')'''
 
 def Item_update(request,id):
     if request.method == "POST":
@@ -104,7 +100,7 @@ def Item_update(request,id):
         return redirect('Item_show')
     return render (request,'admin-template/itemshow.html')
 
-def Itempage(request):
+def Create_item(request):
     if request.method=="GET":
         return render(request, "admin-template/item.html")
     if request.method == "POST":
