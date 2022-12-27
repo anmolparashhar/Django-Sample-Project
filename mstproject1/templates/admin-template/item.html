@@ -50,35 +50,32 @@
                     <label><h4><b>Type</b></h4></label> &nbsp; &nbsp; &nbsp;
                     &nbsp;
                     <label>
-                      <input type="radio" name="type" value="goods" class="minimal" checked>
-                      Goods
+                      <input type="radio" name="type" value="Goods" group="type" class="minimal" required>Goods  &nbsp;&nbsp;&nbsp;
+                      <input type="radio" name="type" value="Services" group="type" class="minimal" required>Services
                     </label>
                     &nbsp;
-                    &nbsp;
-                    <label>
-                      <input type="radio" name="type" value="services" class="minimal">
-                      Services
-                    </label>
+                    
+                 
                   </div>
 
                   <div class="form-group">
                       <label>Name</label>
-                      <input type="text" class="form-control" name= "name" placeholder="Enter ...">
+                      <input type="text" class="form-control" name= "name" placeholder="Enter ..." required>
                   </div>
 
                   <div class="form-group">
                       <label>SKU</label>
-                      <input type="text" class="form-control" name= "sku" placeholder="Enter ...">
+                      <input type="text" class="form-control" name= "sku" placeholder="Enter ..." required>
                   </div>
 
                   <div class="form-group">
                     <label>Unit</label>
-                    <select class="form-control select2" name="unit" style="width: 100%;">
+                    <select class="form-control select2" name="unit" style="width: 100%;" required>
                       <option selected disabled="True">-- Select unit --</option>
-                      <option>Nos</option>
-                      <option>Kg</option>
-                      <option>Pack</option>
-                      <option>Unit</option>
+                      <option value="Nos">Nos</option>
+                      <option value="Kg">Kg</option>
+                      <option value="Pack">Pack</option>
+                      <option value="Unit">Unit</option>
                     </select>
                   </div>
 
@@ -91,7 +88,7 @@
                   </div>
                   <div class="form-group">
                       <label>HSN Code</label>
-                      <input type="text" class="form-control" placeholder="Enter ...">
+                      <input type="text" class="form-control" placeholder="Enter ..." required>
                   </div>
                 </div>
               </div>
@@ -103,20 +100,20 @@
                 <div class="form-group">
                   
                   <div class="uploadOuter">
-                    <input type="file" name="upload_image" onchange="readURL(this);"/>
-                    <img id="blah"  src="http://placehold.it/180" alt="your image"/>
+                    <input type="file" name="upload_image" class="form-control" onchange="readURL(this);"/ required >
+                    <img id="blah"  src="{% static 'images/item_images/INA.jpg' %}"  alt="your image">
                   </div>
                 </div>
                 
                 <div class="form-group">
                   <label>Category</label>
-                  <select class="form-control select2" name="category" style="width: 100%;">
+                  <select class="form-control select2" name="category" style="width: 100%;" required>
                     <option selected disabled="True">-- Select Category --</option>
-                    <option>Electronics</option>
-                    <option>Sports</option>
-                    <option>Cloths</option>
-                    <option>Footwear</option>
-                    <option>Grocery</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Cloths">Cloths</option>
+                    <option value="Footwear">Footwear</option>
+                    <option value="Grocery">Grocery</option>
                     <option disabled="disabled">California(disabled)</option>
                   </select>
                 </div>
@@ -155,45 +152,45 @@
                     <label>Manufacturer</label>
                     <select class="form-control select2" name="manufacturer" style="width: 100%;">
                       <option selected disabled="True">-- Select Manufacturer --</option>
-                      <option>Christian Dior</option>
-                      <option>Nike</option>
-                      <option>Delaware</option>
-                      <option>Addidas</option>
-                      <option>Puma</option>
-                      <option>Inditex</option>
+                      <option value="Christian Dior">Christian Dior</option>
+                      <option value="Nike">Nike</option>
+                      <option value="Delaware">Delaware</option>
+                      <option value="Addidas">Addidas</option>
+                      <option value="Puma">Puma</option>
+                      <option value="Inditex">Inditex</option>
                     </select>
                   </div>
 
                   <div class="form-group">
                     <label>UPC</label>
-                    <input type="text" name="upc" class="form-control" placeholder="Enter ...">
+                    <input type="text" name="upc" class="form-control" placeholder="Enter ..." required>
                   </div>
 
                   <div class="form-group">
                     <label>EAN</label>
-                    <input type="text" name="ean" class="form-control" placeholder="Enter ...">
+                    <input type="text" name="ean" class="form-control" placeholder="Enter ..." required>
                   </div>
 
                   <div class="form-group">
                     <label>Design</label>
-                    <input type="text" name="design" class="form-control" placeholder="Enter ...">
+                    <input type="text" name="design" class="form-control" placeholder="Enter ..." required>
                   </div>
 
                   <div class="form-group">
                     <label>Color</label>
-                    <select class="form-control select2" name="color" style="width: 100%;">
+                    <select class="form-control select2" name="color" style="width: 100%;" required>
                       <option selected disabled="True">-- Select Color --</option>
-                      <option>Black</option>
-                      <option>Red</option>
-                      <option>Brown</option>
-                      <option>White</option>
-                      <option>Pink</option>
-                      <option>Green</option>
+                      <option value="Black">Black</option>
+                      <option value="Red">Red</option>
+                      <option value="Brown">Brown</option>
+                      <option value="White">White</option>
+                      <option value="Pink">Pink</option>
+                      <option value="Green">Green</option>
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputFile">Bar Code Image</label>
-                    <input type="file" name="barcode_image" id="exampleInputFile">
+                    <label for="">Bar Code Image</label>
+                    <input type="file" name="barcode_image" class="form-control" required>
                   </div>
                 </div>
               </div>    
@@ -223,37 +220,37 @@
                       <label>Brand</label>
                       <select class="form-control select2" name="brand" style="width: 100%;">
                         <option selected disabled="True">-- Select Brand --</option>
-                        <option>Puma</option>
-                        <option>Nike</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option>
+                        <option value="Puma">Puma</option>
+                        <option value="Nike">Nike</option>
+                        <option value="Delaware">Delaware</option>
+                        <option value="Tennessee">Tennessee</option>
+                        <option value="Texas">Texas</option>
+                        <option value="Washington">Washington</option>
                       </select>
                     </div>
                     <div class="form-group">
                       <label>MPN</label>
-                      <input type="text" name="mpn" class="form-control" placeholder="Enter ...">
+                      <input type="text" name="mpn" class="form-control" placeholder="Enter ..." required>
                     </div>
 
                     <div class="form-group">
                       <label>ISBN</label>
-                      <input type="text" name="isbn" class="form-control" placeholder="Enter ...">
+                      <input type="text" name="isbn" class="form-control" placeholder="Enter ..." required>
                     </div>
 
                     <div class="form-group">
                       <label>Agency Charge</label>
-                      <input type="text" name="agency_charge" class="form-control" placeholder="Enter ...">
+                      <input type="text" name="agency_charge" class="form-control" placeholder="Enter ..." required>
                     </div>
 
                     <div class="form-group">
                       <label>Price Code</label>
-                      <input type="text" name="price_code" class="form-control" placeholder="Enter ...">
+                      <input type="text" name="price_code" class="form-control" placeholder="Enter ..." required>
                     </div>
 
                     <div class="form-group">
                       <label>Bar Code Image</label>
-                      <input type="text" class="form-control" placeholder="Enter ...">
+                      <input type="text" class="form-control" placeholder="Enter ..." required>
                     </div>
                   </div>
                 </div>
@@ -280,7 +277,7 @@
                     <label>Selling Price</label>
                     <div class="input-group">
                       <span class="input-group-addon">$</span>
-                      <input type="text" name="selling_price" class="form-control">
+                      <input type="text" name="selling_price" class="form-control" required>
                       <span class="input-group-addon">.00</span>
                     </div>
                   </div>
@@ -289,17 +286,17 @@
                     <label>Sales Account</label>
                     <select class="form-control select2" name="sales_account" style="width: 100%;">
                       <option selected disabled="True">-- Select Sales Account --</option>
-                      <option>SBI</option>
-                      <option>PNB</option>
-                      <option>Tennessee</option>
-                      <option>Texas</option>
-                      <option>Washington</option>
+                      <option value="SBI">SBI</option>
+                      <option value="PNB">PNB</option>
+                      <option value="Tennessee">Tennessee</option>
+                      <option value="Texas">Texas</option>
+                      <option value="Washington">Washington</option>
                     </select>
                   </div>
 
                   <div class="form-group">
                     <label>Description</label>
-                    <textarea class="form-control" name="sales_description" rows="3" placeholder="Enter ..."></textarea>
+                    <textarea class="form-control" name="sales_description" rows="3" placeholder="Enter ..." ></textarea>
                   </div>
                 </div>
               </div>    
@@ -319,7 +316,7 @@
                       <label>Cost Price</label>
                       <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input type="text" name="cost_price" class="form-control">
+                        <input type="text" name="cost_price" class="form-control" required>
                         <span class="input-group-addon">.00</span>
                       </div>
                     </div>
@@ -328,11 +325,11 @@
                       <label>Purchase Account</label>
                       <select class="form-control select2" name="purchase_account" style="width: 100%;">
                         <option selected disabled="True">-- Select Purchase Account --</option>
-                        <option>Alaska</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option>
+                        <option value="Alaska">Alaska</option>
+                        <option value="Delaware">Delaware</option>
+                        <option value="Tennessee">Tennessee</option>
+                        <option value="Texas">Texas</option>
+                        <option value="Washington">Washington</option>
                       </select>
                     </div>
                     <div class="form-group">
@@ -366,29 +363,30 @@
                     <label>Inventory Account</label>
                     <select class="form-control select2" name="inventory_account" style="width: 100%;">
                       <option selected disabled="True">-- Select Inventory Account --</option>
-                      <option>Alaska</option>
-                      <option>Delaware</option>
-                      <option>Tennessee</option>
-                      <option>Texas</option>
-                      <option>Washington</option>
+                      <option value="Alaska">Alaska</option>
+                      <option value="Delaware">Delaware</option>
+                      <option value="Tennessee">Tennessee</option>
+                      <option value="Texas">Texas</option>
+                      <option value="Washington">Washington</option>
                       <option disabled="disabled">California (disabled)</option>
                     </select>
                   </div>
 
                   <div class="form-group">
                     <label>Reorder Point</label>
-                    <input type="text" name="reorder_point" class="form-control" placeholder="Enter ...">
+                    <input type="text" name="reorder_point" class="form-control" placeholder="Enter ..." required>
                   </div>
 
                   <div class="form-group">
                     <label>Preferred Vendor</label>
                     <select class="form-control select2" name="preferred_vendor" style="width: 100%;">
                       <option selected disabled="True">-- Select Preferred Vendor --</option>
-                      <option>Alaska</option>
-                      <option>Delaware</option>
-                      <option>Tennessee</option>
-                      <option>Texas</option>
-                      <option>Washington</option>
+                      <option value="Alaska">Alaska</option>
+                      <option value="Delaware">Delaware</option>
+                      <option value="Tennessee">Tennessee</option>
+                      <option value="Texas">Texas</option>
+                      <option value="Washington">Washington</option>
+                      <option disabled="disabled">California (disabled)</option>
                     </select>
                   </div>
                 </div>
@@ -402,11 +400,11 @@
                       <label>Warehouse Name</label>
                       <select class="form-control select2" name="warehouse_name" style="width: 100%;">
                         <option selected disabled="True">-- Select WareHouse Name --</option>
-                        <option>101</option>
-                        <option>102</option>
-                        <option>103</option>
-                        <option>104</option>
-                        <option>105</option>
+                        <option value="101">101</option>
+                        <option value="102">102</option>
+                        <option value="103">103</option>
+                        <option value="104">104</option>
+                        <option value="105">105</option>
                         <option disabled="disabled">106</option>
                       </select>
                     </div>
@@ -424,18 +422,32 @@
               </div>
               <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Save</button>
-                
+                <a href="itemshow"  class="btn btn-warning">Back</a>
               </div>
             </div>
           </div>
         </div>
       </div>
-    
-      {% if success %}
-      <div class="alert alert-success" role="alert">
-      {{success}}
-      </div>
+      {% for message in messages %}
+      {% if message.tags == 'success' %}
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script>
+          var m = "{{ message }}";
+          swal("Success !", m, "success")
+        </script>
+      </div>   
       {% endif %}
+      
+      {% if message.tags == 'warning' %}
+          <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+          <script>
+            var m = "{{ message }}";
+            swal("Error !", m, "warning")
+          </script>
+        </div>   
+        {% endif %}
+      {% endfor %}
+
       </form>
     </section>
   </div>

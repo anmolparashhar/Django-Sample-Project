@@ -21,7 +21,7 @@
 
     <!-- Main content -->
     <section class="content">
-      <form  action="mix" method="POST" enctype="multipart/form-data">
+      <form  action="itemaction" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="row">
         <div class="col-md-12">
@@ -30,7 +30,7 @@
             <div class="">
               <div class="callout callout-info" style="margin-bottom: 0!important;">
                 
-                <a href="item" class="btn btn-primary btn-lg">Add New Item {{eid.id}}</a>
+                <a href="item" class="btn btn-primary btn-lg">Add New Item</a>
                 <input type="submit" name="delete" value="delete" class="btn btn-primary btn-danger pull-right btn-lg">
                 <input type="submit" name="edit" value="Edit" class="btn btn-primary btn-warning pull-right btn-lg">
 
@@ -53,10 +53,12 @@
                   <th>Unit</th>
                   <th>Category</th>
                   <th>Returnable Item</th>
+                  <th>Upload Image</th>
                   <th>UPC</th>
                   <th>EAN</th>
                   <th>Design</th>
                   <th>Color</th>
+                  <th>Barcode Image</th>
                   <th>Brand</th>
                   <th>MPN</th>
                   <th>ISBN</th>
@@ -68,6 +70,7 @@
                   <th>Sales Description</th>
                   <th>Purchase Information</th>
                   <th>Cost Price</th>
+                  <th>Warehouse Name</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -85,10 +88,28 @@
                   <td>{{ item.unit }}</td>
                   <td>{{ item.category }}</td>
                   <td>{{ item.returnable_item }}</td>
+                  {% if item.upload_image %}
+                    <td>
+                      <img src="{{ item.upload_image.url }}" width="150" height="100">
+                    </td>
+                  {% else %}
+                  <td>
+                    <img src="{% static 'images/item_images/INA.jpg' %}" width="150" height="100">
+                  </td>
+                  {% endif %}
                   <td>{{ item.upc }}</td>
                   <td>{{ item.ean }}</td>
                   <td>{{ item.design }}</td>
                   <td>{{ item.color }}</td>
+                  {% if item.barcode_image %}
+                    <td>
+                      <img src="{{ item.barcode_image.url }}" width="150" height="100" >
+                    </td>
+                  {% else %}
+                  <td>
+                    <img src="{% static 'images/item_images/INA.jpg' %}" width="150" height="100">
+                  </td>
+                  {% endif %}
                   <td>{{ item.brand }}</td>
                   <td>{{ item.mpn }}</td>
                   <td>{{ item.isbn }}</td>
@@ -100,6 +121,7 @@
                   <td>{{ item.sales_description }}</td>
                   <td>{{ item.purchase_information }}</td>
                   <td>{{ item.cost_price }}</td>
+                  <td>{{ item.warehouse_name }}</td>
                   
                 </tr>
                 {% endfor %}

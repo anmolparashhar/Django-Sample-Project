@@ -1,5 +1,6 @@
+import os
 from django.db import models
-
+import datetime
 # Create your models here.
 
 class Adminusers(models.Model):
@@ -17,14 +18,26 @@ class Adminusers(models.Model):
         except:
             return False
 
+def filepath(request, filename):
+    old_filename = filename
+    timeNow = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    filename = "%s%s" % (timeNow, old_filename)
+    return os.path.join('item', filename)
+
+def filepath1(request, filename):
+    old_filename = filename
+    timeNow = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    filename = "%s%s" % (timeNow, old_filename)
+    return os.path.join('itembarcode', filename)
+
 class Item(models.Model):
     id = models.AutoField(primary_key=True)
-    type = models.CharField(max_length=50, blank=True, null=True, default=0)
+    type = models.CharField(max_length=10, default=True)
     name = models.CharField(max_length=50, blank=True, null=True)
     sku = models.CharField(max_length=50, blank=True, null=True)
     unit = models.CharField(max_length=50, blank=True, null=True, default=0)
     returnable_item = models.BooleanField(default=False)
-    upload_image = models.ImageField(blank=True, null=True)
+    upload_image = models.ImageField(upload_to=filepath, blank=True, null=True)
     category = models.CharField(max_length=50, blank=True, null=True, default=0)
     dimensions = models.CharField(max_length=50, blank=True, null=True, default=0)
     manufacturer = models.CharField(max_length=50, blank=True, null=True, default=0)
@@ -32,7 +45,7 @@ class Item(models.Model):
     ean = models.IntegerField(default=0)
     design = models.CharField(max_length=50, blank=True, null=True)
     color = models.CharField(max_length=50, blank=True, null=True)
-    barcode_image = models.ImageField(blank=True, null=True)
+    barcode_image = models.ImageField(upload_to=filepath1, blank=True, null=True)
     weight = models.IntegerField(default=0)
     brand = models.CharField(max_length=50, blank=True, null=True)
     mpn = models.CharField(max_length=50, blank=True, null=True)

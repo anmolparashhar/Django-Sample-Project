@@ -10,5 +10,6 @@ urlpatterns = [
     path('logout', views.Logoutpage, name = 'logout'),
     path('item', views.Create_item, name = 'item'),
     path('itemshow', views.Item_show, name= 'itemshow'),
-    path('mix', views.Item_editdelete, name='mix'),
+    path('itemaction', views.Item_editdelete, name='itemaction'),
+    path('itemupdate/<str:id>', views.Item_update, name = 'itemupdate')
 ]

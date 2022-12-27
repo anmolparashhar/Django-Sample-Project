@@ -15,7 +15,7 @@
     <section class="content-header">
       <h1>
         Item Creation
-        <small>Masters</small>
+        <small>Masters{{edit.id}} </small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -28,11 +28,11 @@
    
     <section class="content">
     
-      <form action="" method="POST" enctype="multipart/form-data">
+      <form action="itemupdate/{{edit.id}}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% if error %}
         <div class="alert alert-danger" role="alert">
-            {{error}}
+          {{error}}
         </div>
         {% endif %}
         <!-- SELECT2 EXAMPLE -->
@@ -47,15 +47,10 @@
                     <label><h4><b>Type</b></h4></label> &nbsp; &nbsp; &nbsp;
                     &nbsp;
                     <label>
-                      <input type="radio" name="type" value="{{edit.type}}" class="minimal" checked>
-                      Goods
+                      <input type="radio" name="type" value="Goods" class="minimal" {% if edit.type == "Goods" %} checked {% endif %}> Goods &nbsp;  &nbsp; 
+                      <input type="radio" name="type" value="Services" class="minimal" {% if edit.type == "Services" %} checked {% endif %} > Services
                     </label>
                     &nbsp;
-                    &nbsp;
-                    <label>
-                      <input type="radio" name="type" value="{{edit.type}}" class="minimal">
-                      Services
-                    </label>
                   </div>
 
                   <div class="form-group">
@@ -72,17 +67,18 @@
                     <label>Unit</label>
                     <select class="form-control select2" value="{{edit.unit}}" name="unit" style="width: 100%;">
                       <option selected disabled="True">-- Select unit --</option>
-                      <option>Nos</option>
-                      <option>Kg</option>
-                      <option>Pack</option>
-                      <option>Unit</option>
+                      <option value="Nos" {% if edit.unit == "Nos" %} selected {% endif %}>Nos</option>
+                      <option value="Kg" {% if edit.unit == "Kg" %} selected {% endif %}>Kg</option>
+                      <option value="Pack" {% if edit.unit == "Pack" %} selected {% endif %}>Pack</option>
+                      <option value="Unit" {% if edit.unit == "Unit" %} selected {% endif %}>Unit</option>
+                   
                     </select>
                   </div>
 
                   <div class="form-group">
                       <div class="checkbox">
                         <label>
-                          <input type="checkbox" value="{{edit.returnable_item}}" name="returnable_item"> Returnable Item
+                          <input type="checkbox" value="True" name="returnable_item" {% if edit.returnable_item %} checked {% endif %}> Returnable Item
                         </label>
                       </div>
                   </div>
@@ -98,22 +94,26 @@
               <!-- /.col -->
               <div class="col-md-6">
                 <div class="form-group">
-                  
                   <div class="uploadOuter">
-                    <input type="file" value="{{edit.upload_image}}" name="upload_image" onchange="readURL(this);"/>
-                    <img id="blah"  src="http://placehold.it/180" alt="your image"/>
+                    
+                    {% if edit.upload_image %}
+                      <img id="blah" src="{{edit.upload_image.url}}" value="" alt="image here" "/>
+                      
+                    {% endif %}
+                    <input type="file" name="upload_image" value="{{edit.upload_image}}" onchange="readURL(this);"/>
+                    
                   </div>
                 </div>
                 
                 <div class="form-group">
                   <label>Category</label>
-                  <select class="form-control select2" value="{{edit.select_category}}" name="category" style="width: 100%;">
+                  <select class="form-control select2" value="{{edit.category}}" name="category" style="width: 100%;">
                     <option selected disabled="True">-- Select Category --</option>
-                    <option>Electronics</option>
-                    <option>Sports</option>
-                    <option>Cloths</option>
-                    <option>Footwear</option>
-                    <option>Grocery</option>
+                    <option value="Electronics" {% if edit.category == "Electronics" %} selected {% endif %}>Electronics</option>
+                    <option value="Sports" {% if edit.category == "Sports" %} selected {% endif %}>Sports</option>
+                    <option value="Cloths" {% if edit.category == "Cloths" %} selected {% endif %}>Cloths</option>
+                    <option value="Footwear" {% if edit.category == "Footwear" %} selected {% endif %}>Footwear</option>
+                    <option value="Grocery" {% if edit.category == "Grocery" %} selected {% endif %}>Grocery</option>
                     <option disabled="disabled">California(disabled)</option>
                   </select>
                 </div>
@@ -152,12 +152,12 @@
                     <label>Manufacturer</label>
                     <select class="form-control select2" value="{{edit.manufacturer}}" name="manufacturer" style="width: 100%;">
                       <option selected disabled="True">-- Select Manufacturer --</option>
-                      <option>Christian Dior</option>
-                      <option>Nike</option>
-                      <option>Delaware</option>
-                      <option>Addidas</option>
-                      <option>Puma</option>
-                      <option>Inditex</option>
+                      <option value="Christian Dior" {% if edit.manufacturer == "Christian Dior" %} selected {% endif %}>Christian Dior</option>
+                      <option value="Nike" {% if edit.manufacturer == "Nike" %} selected {% endif %}>Nike</option>
+                      <option value="Delaware" {% if edit.manufacturer == "Delaware" %} selected {% endif %}>Delaware</option>
+                      <option value="Addidas" {% if edit.manufacturer == "Addidas" %} selected {% endif %}>Addidas</option>
+                      <option value="Puma" {% if edit.manufacturer == "Puma" %} selected {% endif %}>Puma</option>
+                      <option value="Inditex" {% if edit.manufacturer == "Inditex" %} selected {% endif %}>Inditex</option>
                     </select>
                   </div>
 
@@ -180,17 +180,23 @@
                     <label>Color</label>
                     <select class="form-control select2" value="{{edit.color}}" name="color" style="width: 100%;">
                       <option selected disabled="True">-- Select Color --</option>
-                      <option>Black</option>
-                      <option>Red</option>
-                      <option>Brown</option>
-                      <option>White</option>
-                      <option>Pink</option>
-                      <option>Green</option>
+                      <option value="Black" {% if edit.color == "Black" %} selected {% endif %}>Black</option>
+                      <option value="Red" {% if edit.color == "Red" %} selected {% endif %}>Red</option>
+                      <option value="Brown" {% if edit.color == "Brown" %} selected {% endif %}>Brown</option>
+                      <option value="White" {% if edit.color == "White" %} selected {% endif %}>White</option>
+                      <option value="Pink" {% if edit.color == "Pink" %} selected {% endif %}>Pink</option>
+                      <option value="Green" {% if edit.color == "Green" %} selected {% endif %}>Green</option>
                     </select>
                   </div>
+                  
                   <div class="form-group">
-                    <label for="exampleInputFile">Bar Code Image</label>
-                    <input type="file" value="{{edit.barcode_image}}" name="barcode_image" id="exampleInputFile">
+                    <label for="" class="form-label">Bar Code Image</label>
+                    {% if edit.barcode_image %}
+                    <img id="blah" src="{{edit.barcode_image.url}}" alt="image here" onchange="readURL(this);"/>
+                    {% else %}
+                    <img id="blah" src="{% static 'images/item_images/INA.jpg' %}" alt="image here">
+                    {% endif %}
+                    <input type="file" value="barcode_image" name="barcode_image" >
                   </div>
                 </div>
               </div>    
@@ -220,12 +226,12 @@
                       <label>Brand</label>
                       <select class="form-control select2" value="{{edit.brand}}" name="brand" style="width: 100%;">
                         <option selected disabled="True">-- Select Brand --</option>
-                        <option>Puma</option>
-                        <option>Nike</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option>
+                        <option value="Puma" {% if edit.brand == "Puma" %} selected {% endif %}>Puma</option>
+                        <option value="Nike" {% if edit.brand == "Nike" %} selected {% endif %}>Nike</option>
+                        <option value="Delaware" {% if edit.brand == "Delaware" %} selected {% endif %}>Delaware</option>
+                        <option value="Tennessee" {% if edit.brand == "Tennessee" %} selected {% endif %}>Tennessee</option>
+                        <option value="Texas" {% if edit.brand == "Texas" %} selected {% endif %}>Texas</option>
+                        <option value="Washington" {% if edit.brand == "Washington" %} selected {% endif %}>Washington</option>
                       </select>
                     </div>
                     <div class="form-group">
@@ -268,7 +274,7 @@
                   <div class="form-group">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" value="{{edit.sales_information}}" value="True" name="sales_information"> Sales Information
+                        <input type="checkbox" value="True"  name="sales_information" {% if edit.sales_information %} checked {% endif %}> Sales Information
                       </label>
                     </div>
                   </div>
@@ -284,19 +290,19 @@
                             
                   <div class="form-group">
                     <label>Sales Account</label>
-                    <select class="form-control select2" value="{{edit.sales_account}}"  name="sales_account" style="width: 100%;">
+                    <select class="form-control select2" name="sales_account" style="width: 100%;"> 
                       <option selected disabled="True">-- Select Sales Account --</option>
-                      <option>SBI</option>
-                      <option>PNB</option>
-                      <option>Tennessee</option>
-                      <option>Texas</option>
-                      <option>Washington</option>
+                      <option value="SBI" {% if edit.sales_account == "SBI" %} selected {% endif %}>SBI</option>
+                      <option value="PNB" {% if edit.sales_account == "PNB" %} selected {% endif %}>PNB</option>
+                      <option value="Tennessee" {% if edit.sales_account == "Tennessee" %} selected {% endif %}>Tennessee</option>
+                      <option value="Texas" {% if edit.sales_account == "Texas" %} selected {% endif %}>Texas</option>
+                      <option value="Washington" {% if edit.sales_account == "Washington" %} selected {% endif %}>Washington</option>
                     </select>
                   </div>
 
                   <div class="form-group">
                     <label>Description</label>
-                    <textarea class="form-control" value="{{edit.sales_description}}" name="sales_description" rows="3" placeholder="Enter ..."></textarea>
+                    <textarea class="form-control"  name="sales_description" rows="3" placeholder="Enter ...">{{edit.sales_description}}</textarea>
                   </div>
                 </div>
               </div>    
@@ -307,7 +313,7 @@
                     <div class="form-group">
                       <div class="checkbox">
                         <label>
-                          <input type="checkbox" value="{{edit.purchase_information}}" value="True" name="purchase_information" > Purchase Information
+                          <input type="checkbox" value="True" name="purchase_information" {% if edit.purchase_information %} checked {% endif %} > Purchase Information
                         </label>
                       </div>
                     </div>
@@ -325,16 +331,16 @@
                       <label>Purchase Account</label>
                       <select class="form-control select2" value="{{edit.purchase_account}}" name="purchase_account" style="width: 100%;">
                         <option selected disabled="True">-- Select Purchase Account --</option>
-                        <option>Alaska</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option>
+                        <option value="Alaska" {% if edit.purchase_account == "Alaska" %} selected {% endif %}>Alaska</option>
+                        <option value="Delaware" {% if edit.purchase_account == "Delaware" %} selected {% endif %}>Delaware</option>
+                        <option value="Tennessee" {% if edit.purchase_account == "Tennessee" %} selected {% endif %}>Tennessee</option>
+                        <option value="Texas" {% if edit.purchase_account == "Texas" %} selected {% endif %}>Texas</option>
+                        <option value="Washington" {% if edit.purchase_account == "Washington" %} selected {% endif %}>Washington</option>
                       </select>
                     </div>
                     <div class="form-group">
                       <label>Description</label>
-                      <textarea class="form-control" value="{{edit.purchase_description}}" name="purchase_description" rows="3" placeholder="Enter ..."></textarea>
+                      <textarea class="form-control"  name="purchase_description" rows="3" placeholder="Enter ...">{{edit.purchase_description}}</textarea>
                     </div>
                   </div>
                 </div>
@@ -353,7 +359,7 @@
                   <div class="form-group">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox" value="{{edit.track_inventory}}" value="True" name="track_inventory" > &nbsp; &nbsp; Track Inventory for this Item
+                        <input type="checkbox" value="True" name="track_inventory" {% if edit.track_inventory %} checked {% endif %}> &nbsp; &nbsp; Track Inventory for this Item
                         <h6>You cannot enable/disable inventory tracking once you've created transactions for this item</h6>
                       </label>
                     </div>
@@ -363,11 +369,11 @@
                     <label>Inventory Account</label>
                     <select class="form-control select2" value="{{edit.inventory_account}}" name="inventory_account" style="width: 100%;">
                       <option selected disabled="True">-- Select Inventory Account --</option>
-                      <option>Alaska</option>
-                      <option>Delaware</option>
-                      <option>Tennessee</option>
-                      <option>Texas</option>
-                      <option>Washington</option>
+                      <option value="Alaska" {% if edit.inventory_account == "Alaska" %} selected {% endif %}>Alaska</option>
+                      <option value="Delaware" {% if edit.inventory_account == "Delaware" %} selected {% endif %}>Delaware</option>
+                      <option value="Tennessee" {% if edit.inventory_account == "Tennessee" %} selected {% endif %}>Tennessee</option>
+                      <option value="Texas" {% if edit.inventory_account == "Texas" %} selected {% endif %}>Texas</option>
+                      <option value="Washington" {% if edit.inventory_account == "Washington" %} selected {% endif %}>Washington</option>
                       <option disabled="disabled">California (disabled)</option>
                     </select>
                   </div>
@@ -381,11 +387,12 @@
                     <label>Preferred Vendor</label>
                     <select class="form-control select2" value="{{edit.preferred_vendor}}" name="preferred_vendor" style="width: 100%;">
                       <option selected disabled="True">-- Select Preferred Vendor --</option>
-                      <option>Alaska</option>
-                      <option>Delaware</option>
-                      <option>Tennessee</option>
-                      <option>Texas</option>
-                      <option>Washington</option>
+                      <option value="Alaska" {% if edit.preferred_vendor == "Alaska" %} selected {% endif %}>Alaska</option>
+                      <option value="Delaware" {% if edit.preferred_vendor == "Delaware" %} selected {% endif %}>Delaware</option>
+                      <option value="Tennessee" {% if edit.preferred_vendor == "Tennessee" %} selected {% endif %}>Tennessee</option>
+                      <option value="Texas" {% if edit.preferred_vendor == "Texas" %} selected {% endif %}>Texas</option>
+                      <option value="Washington" {% if edit.preferred_vendor == "Washington" %} selected {% endif %}>Washington</option>
+                      <option disabled="disabled">California (disabled)</option>
                     </select>
                   </div>
                 </div>
@@ -398,12 +405,12 @@
                     <div class="form-group">
                       <label>Warehouse Name</label>
                       <select class="form-control select2" value="{{edit.warehouse_name}}" name="warehouse_name" style="width: 100%;">
-                        <option selected disabled="True">-- Select WareHouse Name --</option>
-                        <option>101</option>
-                        <option>102</option>
-                        <option>103</option>
-                        <option>104</option>
-                        <option>105</option>
+                        <option selected disabled="True">-- Select Warehouse Name --</option>
+                        <option value="101" {% if edit.warehouse_name == "101" %} selected {% endif %}>101</option>
+                        <option value="102" {% if edit.warehouse_name == "102" %} selected {% endif %}>102</option>
+                        <option value="103" {% if edit.warehouse_name == "103" %} selected {% endif %}>103</option>
+                        <option value="104" {% if edit.warehouse_name == "104" %} selected {% endif %}>104</option>
+                        <option value="105" {% if edit.warehouse_name == "105" %} selected {% endif %}>105</option>
                         <option disabled="disabled">106</option>
                       </select>
                     </div>
@@ -421,16 +428,27 @@
               </div>
               
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <input type="submit" name="update" value="Update"
               </div>
             </div>
           </div>
         </div>
       </div>
       
-      {% if success %}
-      <div class="alert alert-success" role="alert">
-      {{success}}
+      {% for message in messages %}
+      {% if message.tags == 'success' %}
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script>
+          var m = "{{ message }}";
+          swal("Success !", m, "success")
+        </script>
+      </div>   
+      {% endif %}
+      {% endfor %}
+
+      {% if error %}
+      <div class="alert alert-danger" role="alert">
+          {{error}}
       </div>
       {% endif %}
       </form>
