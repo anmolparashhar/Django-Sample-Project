@@ -1,15 +1,9 @@
-from itertools import count
 import os
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
-import threading
 from msadmin.decorators import login_is_required
 from . models import Adminusers, Item
 from django.core.paginator import Paginator
-from django.db.models import Sum
-from django.http import JsonResponse
 from django.contrib import messages
-from django.core.files.storage import FileSystemStorage
 
 
 def Adminpage(request):
@@ -17,6 +11,10 @@ def Adminpage(request):
             adminuser_email = request.session['adminuser_email']
             return render(request,'admin-template/index.html', {'adminuser_email' : adminuser_email})
     return render(request,'admin-template/pages/examples/login.html')
+
+def Create_Branch(request):
+    return render(request,'admin-template/branchcreation.html')
+
 
 def Item_show(request):
     if request.method == "GET":
@@ -112,6 +110,75 @@ def Item_update(request,id):
         return redirect(Item_show)
     return render (request,'admin-template/itemshow.html')
 
+# def Create_item(request):
+#     if request.method=="GET":
+#         return render(request, "admin-template/item.html")
+#     if request.method == "POST":
+#         type=request.POST.get('type')
+#         name=request.POST.get('name')
+#         sku=request.POST.get('sku')
+#         unit=request.POST.get('unit')
+#         returnable_item=request.POST.get('returnable_item') or False
+#         if 'upload_image' in request.FILES:
+#             upload_image = request.FILES.getlist('upload_image')
+#             for image in upload_image: 
+#                 insert = image
+#                 print(insert)
+#         category=request.POST.get('category')
+#         manufacturer=request.POST.get('manufacturer')
+#         upc=request.POST.get('upc')
+#         ean=request.POST.get('ean')
+#         design=request.POST.get('design')
+#         color=request.POST.get('color')
+#         if 'barcode_image' in request.FILES:
+#             barcode_image = request.FILES['barcode_image']
+#         brand=request.POST.get('brand')
+#         mpn=request.POST.get('mpn')
+#         isbn=request.POST.get('isbn')
+#         agency_charge=request.POST.get('agency_charge')
+#         price_code=request.POST.get('price_code')
+#         sales_information=request.POST.get('sales_information') or False
+#         selling_price=request.POST.get('selling_price')
+#         sales_account=request.POST.get('sales_account')
+#         sales_description=request.POST.get('sales_description')
+#         purchase_information=request.POST.get('purchase_information') or False
+#         cost_price=request.POST.get('cost_price')
+#         purchase_account=request.POST.get('purchase_account')
+#         purchase_description=request.POST.get('purchase_description')
+#         track_inventory=request.POST.get('track_inventory') or False
+#         inventory_account=request.POST.get('inventory_account')
+#         reorder_point=request.POST.get('reorder_point')
+#         preferred_vendor=request.POST.get('preferred_vendor')
+#         warehouse_name=request.POST.get('warehouse_name')
+
+#         check_existing = Item.objects.filter(name=name)
+#         if check_existing:
+#             messages.warning (request,'The item name already exists.')
+#             return redirect ('item')
+#         else:
+#             error_message = None
+#             if not upload_image:
+#                 messages.warning (request,'Please Upload Item Image.')
+#                 return redirect ('item')
+#             elif not category:
+#                 messages.warning (request,'Please Add Barcode Image.')
+#                 return redirect ('item')
+            
+#             if not error_message:  
+#                 Item(type=type, name=name, sku=sku, unit=unit, returnable_item=returnable_item, upload_image=insert, category=category, manufacturer=manufacturer, upc=upc, ean=ean, design=design, 
+#                 color=color, barcode_image=barcode_image, brand=brand, mpn=mpn, isbn=isbn, agency_charge=agency_charge, price_code=price_code, sales_information=sales_information, selling_price=selling_price, sales_account=sales_account, sales_description=sales_description,
+#                 purchase_information=purchase_information, cost_price=cost_price, purchase_account=purchase_account, purchase_description=purchase_description, track_inventory=track_inventory,
+#                 inventory_account=inventory_account, reorder_point=reorder_point, preferred_vendor=preferred_vendor, warehouse_name=warehouse_name).save()     
+#                 #messages.success(request, request.POST['first_name']+", your account is successfully created.")
+                
+            
+#                 messages.success (request,'The Item ' + request.POST['name'] + ' has created successfully.')
+#                 return redirect('itemshow')
+#     else:
+#         error_message = "The data not saved. Please try again!"
+#         fdata = {"error": error_message}
+#         return render(request, 'admin-template/pages/examples/login.html', fdata)
+
 def Create_item(request):
     if request.method=="GET":
         return render(request, "admin-template/item.html")
@@ -147,7 +214,9 @@ def Create_item(request):
         item.preferred_vendor=request.POST.get('preferred_vendor')
         item.warehouse_name=request.POST.get('warehouse_name')
         if 'upload_image' in request.FILES:
-            item.upload_image = request.FILES['upload_image']
+            item.upload_image = request.FILES.get('upload_image')
+            
+  
         if 'barcode_image' in request.FILES:
             item.barcode_image = request.FILES['barcode_image']
 
@@ -160,8 +229,8 @@ def Create_item(request):
             if not item.upload_image:
                 messages.warning (request,'Please Add Item Image.')
                 return redirect ('item')
-            elif not item.barcode_image:
-                messages.warning (request,'Please Add Barcode Image.')
+            elif not item.category:
+                messages.warning (request,'Please Add category.')
                 return redirect ('item')
 
             if not error_message:         
@@ -205,57 +274,3 @@ def Logoutpage(request):
     except:
         return render(request, 'admin-template/pages/examples/login.html')
     return redirect('login')
-
-
-
-# def Item_update(request,id):
-#     edit = Item.objects.get(id=id)
-#     if request.method=="GET":
-#         return render(request, "admin-template/itemedit.html")
-#     if request.method == "POST":
-#         type=request.POST.get('type')
-#         name=request.POST.get('name')
-#         sku=request.POST.get('sku')
-#         unit=request.POST.get('unit')
-#         returnable_item=request.POST.get('returnable_item') or False
-#         if 'upload_image' in request.FILES:
-#             upload_image = request.FILES.get('upload_image')
-#         else:
-#             upload_image = edit.upload_image
-#         category=request.POST.get('category')
-#         manufacturer=request.POST.get('manufacturer')
-#         upc=request.POST.get('upc')
-#         ean=request.POST.get('ean')
-#         design=request.POST.get('design')
-#         color=request.POST.get('color')
-#         if 'barcode_image' in request.FILES:
-#             barcode_image = request.FILES.get('barcode_image')
-#         else:
-#             barcode_image = edit.barcode_image
-#         brand=request.POST.get('brand')
-#         mpn=request.POST.get('mpn')
-#         isbn=request.POST.get('isbn')
-#         agency_charge=request.POST.get('agency_charge')
-#         price_code=request.POST.get('price_code')
-#         sales_information=request.POST.get('sales_information') or False
-#         selling_price=request.POST.get('selling_price')
-#         sales_account=request.POST.get('sales_account')
-#         sales_description=request.POST.get('sales_description')
-#         purchase_information=request.POST.get('purchase_information') or False
-#         cost_price=request.POST.get('cost_price')
-#         purchase_account=request.POST.get('purchase_account')
-#         purchase_description=request.POST.get('purchase_description')
-#         track_inventory=request.POST.get('track_inventory') or False
-#         inventory_account=request.POST.get('inventory_account')
-#         reorder_point=request.POST.get('reorder_point')
-#         preferred_vendor=request.POST.get('preferred_vendor')
-#         warehouse_name=request.POST.get('warehouse_name')
-
-#         update = Item(type=type, name=name, sku=sku, unit=unit, returnable_item=returnable_item, upload_image=upload_image, category=category, manufacturer=manufacturer, upc=upc, ean=ean, design=design, 
-#         color=color, barcode_image=barcode_image, brand=brand, mpn=mpn, isbn=isbn, agency_charge=agency_charge, price_code=price_code, sales_information=sales_information, selling_price=selling_price, sales_account=sales_account, sales_description=sales_description,
-#         purchase_information=purchase_information, cost_price=cost_price, purchase_account=purchase_account, purchase_description=purchase_description, track_inventory=track_inventory,
-#         inventory_account=inventory_account, reorder_point=reorder_point, preferred_vendor=preferred_vendor, warehouse_name=warehouse_name)  
-#         update.save()
-#         messages.success (request,'The Item has updated successfully.')
-#         return redirect(Item_show)
-#     return render (request,'admin-template/itemshow.html')

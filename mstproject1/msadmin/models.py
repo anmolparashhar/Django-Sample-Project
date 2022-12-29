@@ -1,6 +1,13 @@
 import os
 from django.db import models
 import datetime
+import barcode
+import qrcode
+from aztec_code_generator import AztecCode
+from barcode.writer import ImageWriter
+from io import BytesIO
+from django.core.files import File
+from PIL import Image,  ImageDraw
 # Create your models here.
 
 class Adminusers(models.Model):
@@ -37,7 +44,7 @@ class Item(models.Model):
     sku = models.CharField(max_length=50, blank=True, null=True)
     unit = models.CharField(max_length=50, blank=True, null=True, default=0)
     returnable_item = models.BooleanField(default=False)
-    upload_image = models.ImageField(upload_to=filepath, blank=True, null=True)
+    upload_image = models.FileField(upload_to=filepath, blank=True, null=True)
     category = models.CharField(max_length=50, blank=True, null=True, default=0)
     dimensions = models.CharField(max_length=50, blank=True, null=True, default=0)
     manufacturer = models.CharField(max_length=50, blank=True, null=True, default=0)
@@ -49,7 +56,7 @@ class Item(models.Model):
     weight = models.IntegerField(default=0)
     brand = models.CharField(max_length=50, blank=True, null=True)
     mpn = models.CharField(max_length=50, blank=True, null=True)
-    isbn = models.CharField(max_length=50, blank=True, null=True)
+    isbn = models.CharField('ISBN', max_length=13, blank=True, null=True)
     agency_charge = models.IntegerField(null = True)
     price_code = models.IntegerField(default=0)
     bar_code_image = models.BinaryField(null = True)
@@ -71,6 +78,21 @@ class Item(models.Model):
 
     class Meta:
         db_table = "mstproject1_item"
+
+    def save(self, *args, **kwargs):
+        data = 'Aztec Code 2D :)'
+        aztec_code = AztecCode(data)
+        aztec_code.save('aztec_code4.png', module_size=4, border=1)
+        return super().save(*args, **kwargs)
+
+    #( Code to generate barcode)
+    # def save(self, *args, **kwargs):
+    #     CODE_39 = barcode.get_barcode_class('code39')
+    #     code = CODE_39('isbn', writer=ImageWriter())
+    #     buffer=BytesIO()
+    #     code.write(buffer)
+    #     self.barcode_image.save('isbn.png',File(buffer),save=False)
+    #     return super().save(*args, **kwargs)
 
     @staticmethod
     def get_id(id):

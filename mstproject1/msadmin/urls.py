@@ -11,5 +11,6 @@ urlpatterns = [
     path('item', views.Create_item, name = 'item'),
     path('itemshow', views.Item_show, name= 'itemshow'),
     path('itemaction', views.Item_editdelete, name='itemaction'),
-    path('itemupdate/<str:id>', views.Item_update, name = 'itemupdate')
+    path('itemupdate/<str:id>', views.Item_update, name = 'itemupdate'),
+    path("branchcreation", views.Create_Branch, name='branchcreation')
 ]
